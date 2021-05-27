@@ -1,0 +1,29 @@
+body{
+    background-color: #c7e48acc;
+}
+table{
+    margin: auto;
+    background-color: #9dd2ea;
+    width: 295px;
+    height: 325px;
+    text-align: center;
+    border-radius: 4px;
+    
+}
+
+#btns {
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    grid-template-rows: repeat(5, 40px);
+    column-gap: 10px;
+    row-gap: 10px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#btns button {
+
+}
