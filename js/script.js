@@ -30,3 +30,19 @@ function operate(a, operand, b){
             break;
     }
 }
+
+const btns = document.querySelectorAll("button");
+const display = document.querySelectorAll("#answer");
+let displayNum;
+
+function (){
+    
+}
+
+btns.forEach(btn => btn.addEventListener("click", ()=>{
+    if (btn.classList.contains("number")){
+        displayNum = btn.value;
+    }
+}));
+
+
