@@ -1,5 +1,5 @@
 body{
-    background-color: #fad3ee;
+    background-color: lightblue;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -15,7 +15,6 @@ table{
     width: 300px;
     height: 470px;
     border-radius: 1rem;
-
 }
 
 #display {
@@ -57,9 +56,20 @@ output {
     row-gap: 10px;
 }
 
+.operand, .equal {
+    background-color: orange;
+    color: white;
+}
+
 button {
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     font-size: x-large;
-    
+    border: black;
 }
+
+button:hover {
+    background-color: green;
+    color: white;
+}
+
