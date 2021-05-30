@@ -3,6 +3,15 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#command {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    background-color: white;
+    width: 20vw;
+    padding-left: 1%;
+}
+
 #main {
     position: fixed;
     top: 50%;
@@ -66,10 +75,12 @@ button {
     background-color: rgb(255, 255, 255);
     font-size: x-large;
     border: black;
+    transition: all .05s ease-in-out;
 }
 
 button:hover {
     background-color: green;
+    transform: translateY(-0.2rem);
     color: white;
 }
 

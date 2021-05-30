@@ -1,5 +1,5 @@
 function add(a,b){
-    return parseFloat(a)+parseFloat(b);
+    return a+b;
 }
 
 function subtract(a,b){
@@ -19,6 +19,8 @@ function modulus(a,b){
 }
 
 function operate(a, operand, b){
+    a = Number(a);
+    b= Number(b);
     switch(operand){
         case "+":
             return add(a,b);
@@ -49,12 +51,31 @@ const clear = document.querySelector("#clear")
 const allclear = document. querySelector("#allclear")
 
 //use 0 for the numbers so we can accept negatives at the start
-let displayNum, num1="0", num2="0", operand, answer;
+let num1="0", num2="0", operand, answer;
 
 //history output
 function historyShow(displayNum){
-    
+
     history.textContent += displayNum;
+
+    //if 2 operands is detected, disable
+    if (history.textContent.search(/[x%÷\+-]{2,}/g)!="-1"){
+        history.textContent=history.textContent.slice(0, -1);
+    }
+    
+    //overflow reset the display
+    if (history.textContent.length>14){
+        alert("Number too big! Try a smaller number");
+        history.textContent="";
+    }
+
+    //store num1 or num2 depending on whether operand exist
+    if (history.textContent.search(/[x%÷\+-]/g)!="-1"){
+        num2=history.textContent.slice((num1.length)+1);
+    }
+    else {
+        num1 = history.textContent;
+    }
 
     // if display has output, store it to history upon another input
     if (display.textContent!=""){
@@ -69,6 +90,7 @@ function historyShow(displayNum){
 
 //answer output
 function answerShow(answer){
+    //if there is error
     if (isNaN(answer)){
         history.textContent= "";
         display.textContent= "ERROR";
@@ -76,6 +98,10 @@ function answerShow(answer){
         num2="0";
     }
     else{
+        //if overflow, round the precision
+        if (answer.toString().length>10){
+            answer=answer.toFixed(2);
+        }
         display.textContent = answer;
     }
 }
@@ -104,14 +130,16 @@ btns.forEach(btn => btn.addEventListener("click", ()=>{
 
     //decimal
     if (btn.classList.contains("decimal")){
-        displayNum = btn.value;
-        historyShow(displayNum);
+        historyShow(btn.value);
     }
 
     //number
     if (btn.classList.contains("number")){
-        displayNum = btn.value;
-        historyShow(displayNum);
+        if (display.textContent!=""){
+            history.textContent = "";
+            display.textContent = "";
+        }
+        historyShow(btn.value);;
     }
 
     //operand
@@ -119,25 +147,39 @@ btns.forEach(btn => btn.addEventListener("click", ()=>{
     if (btn.classList.contains("operand")){
         //num2 should be empty if it is our first number
         //if there is already 2 numbers, sum up the previous numbers first
-        num2 = history.textContent.substring((num1.length)+1);
+        num2 = history.textContent.slice((num1.length)+1);
         if (num2!=""){
             answer = operate(num1, operand, num2);
             answerShow(answer);
         }
 
-        //store first number value
-        num1 = history.textContent;
+        //store operand value
         operand = btn.value;
         historyShow(btn.value);
     }
     
     //equal
     if (btn.classList.contains("equal")){
-        num2 = history.textContent.substring((num1.length)+1);
-        answer = operate(num1, operand, num2);
-        answerShow(answer);
+        num2 = history.textContent.slice((num1.length)+1);
+        if (num2==""){
+            answerShow(history.textContent);
+        }
+        else {
+            answer = operate(num1, operand, num2);
+            answerShow(answer);
+        }
     }
 
 }));
+
+//keyboard support
+document.addEventListener('keydown', function(event) {
+    if(event.key == 1) {
+        console.log();
+    }
+    else if(event.key == 39) {
+        alert('Right was pressed');
+    }
+});
 
 
