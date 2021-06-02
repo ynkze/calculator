@@ -106,26 +106,72 @@ function answerShow(answer){
     }
 }
 
+//AC
+function allClear(){
+    history.textContent = "";
+    display.textContent = "";
+}
+
+//C
+function clearFunc(){
+    //will backspace history, or clear everything if there is a display
+    if (display.textContent!=""){
+        history.textContent = "";
+        display.textContent = "";
+    }
+    else {
+        history.textContent=history.textContent.slice(0, -1);
+    }
+}
+
+//number function
+function numberFunc(num){
+    //if there is display, clear it
+    if (display.textContent!=""){
+        history.textContent = "";
+        display.textContent = "";
+    }
+    historyShow(num);;
+}
+
+//operand function
+function operandFunc(operandValue){
+    //if there is already 2 numbers, sum up the previous numbers first
+    num2 = history.textContent.slice((num1.length)+1);
+    if (num2!=""){
+        answer = operate(num1, operand, num2);
+        answerShow(answer);
+    }
+
+    //store operand value
+    operand = operandValue;
+    historyShow(operandValue);
+}
+
+//equal function
+function equalFunc(){
+    num2 = history.textContent.slice((num1.length)+1);
+    if (num2==""){
+        answerShow(history.textContent);
+    }
+    else {
+        answer = operate(num1, operand, num2);
+        answerShow(answer);
+    }
+}
+
 
 //what will happen on each button click
 btns.forEach(btn => btn.addEventListener("click", ()=>{
 
-    //AC will clear everything
+    //AC
     if (btn.classList.contains("allclear")){
-        history.textContent = "";
-        display.textContent = "";
+        allClear();
     }
 
     //C
-    //will backspace history, or clear everything if there is a display
     if (btn.classList.contains("clear")){
-        if (display.textContent!=""){
-            history.textContent = "";
-            display.textContent = "";
-        }
-        else {
-            history.textContent=history.textContent.slice(0, -1);
-        }
+        clearFunc();
     }
 
     //decimal
@@ -135,50 +181,57 @@ btns.forEach(btn => btn.addEventListener("click", ()=>{
 
     //number
     if (btn.classList.contains("number")){
-        if (display.textContent!=""){
-            history.textContent = "";
-            display.textContent = "";
-        }
-        historyShow(btn.value);;
+        numberFunc(btn.value);
     }
 
     //operand
-    //pressing any operand, need to consider if we already pressed operand
     if (btn.classList.contains("operand")){
-        //num2 should be empty if it is our first number
-        //if there is already 2 numbers, sum up the previous numbers first
-        num2 = history.textContent.slice((num1.length)+1);
-        if (num2!=""){
-            answer = operate(num1, operand, num2);
-            answerShow(answer);
-        }
-
-        //store operand value
-        operand = btn.value;
-        historyShow(btn.value);
+        operandFunc(btn.value);
     }
     
     //equal
     if (btn.classList.contains("equal")){
-        num2 = history.textContent.slice((num1.length)+1);
-        if (num2==""){
-            answerShow(history.textContent);
-        }
-        else {
-            answer = operate(num1, operand, num2);
-            answerShow(answer);
-        }
+        equalFunc();
     }
 
 }));
 
 //keyboard support
 document.addEventListener('keydown', function(event) {
-    if(event.key == 1) {
-        console.log();
-    }
-    else if(event.key == 39) {
-        alert('Right was pressed');
+    switch(event.key){
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+            numberFunc(event.key);
+            break;   
+        case ".":
+            historyShow(event.key);
+            break;
+        case "Backspace":
+            clearFunc();
+            break;
+        case "+":
+        case "-":
+        case "x":
+        case "/":
+        case "%":
+            operandFunc(event.key);
+            break;
+        case "*":
+            operandFunc(event.key);
+            break;
+        case "=":
+        case "Enter":
+            equalFunc();
+            break;
+        default:
+            break;
     }
 });
 
