@@ -32,6 +32,7 @@ function operate(a, operand, b){
             return multiply(a,b);
             break;
         case "÷":
+	case "/":
             if (b==0){
                 return "ERROR";
             }
